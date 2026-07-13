@@ -1,0 +1,243 @@
+/* ─────────────────────────────────────────────────────────────
+   Global base styles — accessibility, motion & UX foundations
+   Follows WCAG 2.1 AA guidance for contrast, focus & motion.
+   ───────────────────────────────────────────────────────────── */
+
+html {
+  /* Smooth in-page navigation for anchor links */
+  scroll-behavior: smooth;
+  /* Prevent iOS text auto-inflation on rotate */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  /* Comfortable readable base; ~16px min keeps mobile legible */
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a,
+  button,
+  [role="button"] {
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* Offset fixed header (70px) when jumping to in-page sections */
+:where(section, footer)[id] {
+  scroll-margin-top: 88px;
+}
+
+/* ── Visible, consistent keyboard focus (a11y) ───────────────── */
+:focus-visible {
+  outline: 2px solid #f2911b;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+/* Remove default outline only when a custom focus-visible applies */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Larger, comfortable tap targets on touch devices (min 44px) */
+@media (pointer: coarse) {
+  a[role="button"],
+  button,
+  a.tap-target {
+    min-height: 44px;
+  }
+}
+
+/* ── Global interaction timing tokens ────────────────────────── */
+:root {
+  /* One easing + duration standard for hover/interactive feedback
+     used consistently across the whole site. */
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --hover-duration: 400ms;
+  --reveal-duration: 700ms;
+}
+
+/* ── Scroll-reveal primitive ─────────────────────────────────── */
+/* NOTE: because this element also carries hover styling (cards are the
+   reveal target), the transition list MUST include the hover-animated
+   properties — otherwise the reveal shorthand strips their transitions
+   and colors/shadows snap instantly. */
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  transition:
+    opacity var(--reveal-duration) var(--ease-smooth),
+    transform 550ms var(--ease-smooth),
+    color var(--hover-duration) var(--ease-smooth),
+    background-color var(--hover-duration) var(--ease-smooth),
+    border-color var(--hover-duration) var(--ease-smooth),
+    box-shadow var(--hover-duration) var(--ease-smooth);
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+}
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* ── Reusable premium card hover treatments ──────────────────── */
+/* These cards also use [data-reveal]. Their hover transitions are kept
+  explicit and separate from the entrance animation so the background,
+  border and shadow never snap or compete with the reveal transform. */
+.card-hover-dark,
+.about-pillar-card {
+  transition:
+    opacity var(--reveal-duration) var(--ease-smooth),
+    transform 500ms var(--ease-smooth),
+    background-color 620ms var(--ease-smooth),
+    box-shadow 520ms var(--ease-smooth);
+}
+.card-hover-dark-icon,
+.card-hover-dark-title,
+.card-hover-dark-copy,
+.about-pillar-icon,
+.about-pillar-title,
+.about-pillar-copy {
+  transition:
+    color 520ms var(--ease-smooth),
+    background-color 520ms var(--ease-smooth),
+    border-color 520ms var(--ease-smooth);
+}
+.card-hover-dark:hover,
+.about-pillar-card:hover {
+  background-color: #1f2225;
+  box-shadow: 0 18px 36px rgb(21 23 25 / 12%);
+  transform: translate3d(0, -4px, 0);
+}
+.card-hover-dark:hover .card-hover-dark-icon,
+.about-pillar-card:hover .about-pillar-icon {
+  background-color: rgb(242 145 27 / 10%);
+  border-color: rgb(242 145 27 / 60%);
+}
+.card-hover-dark:hover .card-hover-dark-title,
+.about-pillar-card:hover .about-pillar-title {
+  color: #ffffff;
+}
+.card-hover-dark:hover .card-hover-dark-copy,
+.about-pillar-card:hover .about-pillar-copy {
+  color: #c1c4c7;
+}
+
+.card-hover-light,
+.about-focus-card {
+  transition:
+    opacity var(--reveal-duration) var(--ease-smooth),
+    transform 500ms var(--ease-smooth),
+    border-color 520ms var(--ease-smooth),
+    box-shadow 520ms var(--ease-smooth),
+    background-color 520ms var(--ease-smooth);
+}
+.card-hover-light-icon,
+.about-focus-icon {
+  transition: background-color 520ms var(--ease-smooth);
+}
+.card-hover-light:hover,
+.about-focus-card:hover {
+  border-color: rgb(242 145 27 / 48%);
+  box-shadow: 0 14px 30px rgb(21 23 25 / 8%);
+  transform: translate3d(0, -4px, 0);
+}
+.card-hover-light:hover .card-hover-light-icon,
+.about-focus-card:hover .about-focus-icon {
+  background-color: rgb(242 145 27 / 20%);
+}
+
+/* ── Site-wide hover smoothness standard ─────────────────────── */
+/* Any element using Tailwind transition utilities gets a consistent,
+   professional easing + a comfortable minimum duration so no hover
+   (color, background, border, shadow, transform) feels abrupt. */
+@media (prefers-reduced-motion: no-preference) {
+  [class*="transition-"]:not([data-reveal]) {
+    transition-timing-function: var(--ease-smooth);
+    transition-duration: var(--hover-duration);
+  }
+  /* Keep the scroll progress bar and marquee on their own timing */
+  [role="progressbar"],
+  .animate-marquee {
+    transition-duration: 0s;
+  }
+}
+
+/* ── Respect users who prefer reduced motion ─────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Screen-reader only helper */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Decorative animations ───────────────────────────────────── */
+@keyframes hero-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+.animate-hero-zoom {
+  animation: hero-zoom 18s ease-out forwards;
+}
+
+@keyframes bounce-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+.animate-bounce-slow {
+  animation: bounce-slow 1.8s ease-in-out infinite;
+}
+
+@keyframes ping-slow {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  75%,
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+.animate-ping-slow {
+  animation: ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
