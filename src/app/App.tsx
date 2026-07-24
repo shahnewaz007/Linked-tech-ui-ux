@@ -7,6 +7,23 @@ import {
   type ReactNode,
 } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router";
+// ── Admin panel ──────────────────────────────────────────
+import { AdminLayout } from "./admin/AdminLayout";
+import { DashboardPage as AdminDashboardPage } from "./admin/pages/DashboardPage";
+import { PermissionsPage as AdminPermissionsPage } from "./admin/pages/PermissionsPage";
+import { AdminUsersPage } from "./admin/pages/users/AdminUsersPage";
+import { EditorUsersPage } from "./admin/pages/users/EditorUsersPage";
+import { ServicesPage as AdminServicesPage } from "./admin/pages/catalog/ServicesPage";
+import { ProductsPage as AdminProductsPage } from "./admin/pages/catalog/ProductsPage";
+import { CategoryPage as AdminCategoryPage } from "./admin/pages/catalog/CategoryPage";
+import { BrandPage as AdminBrandPage } from "./admin/pages/catalog/BrandPage";
+import { GalleryPage as AdminGalleryPage } from "./admin/pages/content/GalleryPage";
+import { EventsPage as AdminEventsPage } from "./admin/pages/content/EventsPage";
+import { TestimonialsPage as AdminTestimonialsPage } from "./admin/pages/content/TestimonialsPage";
+import { FaqPage as AdminFaqPage } from "./admin/pages/content/FaqPage";
+import { TeamPage as AdminTeamPage } from "./admin/pages/content/TeamPage";
+import { BranchesPage as AdminBranchesPage } from "./admin/pages/settings/BranchesPage";
+import { CompanyInfoPage as AdminCompanyInfoPage } from "./admin/pages/settings/CompanyInfoPage";
 import {
   Menu,
   X,
@@ -63,8 +80,8 @@ const NAV_LINKS: {
   { label: "About Us", to: "/about" },
   { label: "Services", to: "/services" },
   { label: "Products", to: "/products" },
-  { label: "Gallery", section: "gallery" },
-  { label: "Event", section: "event" },
+  { label: "Gallery", to: "/gallery" },
+  { label: "Event", to: "/event" },
   { label: "Contact", to: "/contact" },
 ];
 
@@ -678,7 +695,7 @@ function Hero() {
       className="relative min-h-screen flex items-center overflow-hidden bg-[#151719]"
     >
       {/* Background image — right portion */}
-      <div className="absolute inset-0 lg:left-[42%] overflow-hidden">
+      <div className="absolute inset-0 lg:left-[36%] overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1647427060118-4911c9821b82?w=1400&h=900&fit=crop&auto=format"
           alt="Industrial automation factory with orange robotic machinery"
@@ -692,7 +709,7 @@ function Hero() {
       <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#F2911B] hidden lg:block" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-20 w-full">
-        <div className="max-w-xl lg:max-w-[52%]">
+        <div className="w-full lg:w-7/12">
           {/* Eyebrow */}
           <div className="flex items-center gap-3 mb-6">
             <div className="h-px w-10 bg-[#F2911B]" />
@@ -706,20 +723,15 @@ function Hero() {
 
           {/* Headline */}
           <h1
-            className="text-4xl md:text-5xl lg:text-[3.6rem] font-bold text-white leading-[1.06] mb-6 tracking-tight"
+            className="text-4xl md:text-5xl lg:text-[3.4rem] font-bold text-white leading-[1.08] mb-6 tracking-tight max-w-3xl"
             style={{ fontFamily: "'Roboto Slab', serif" }}
           >
-            Your Industrial
-            <br />
-            Engineering &amp;{" "}
-            <span className="text-[#F2911B]">Automation</span>
-            <br />
-            Experts
+            Your Industrial Engineering &amp; <span className="text-[#F2911B]">Automation</span> Experts
           </h1>
 
           {/* Value prop */}
           <p
-            className="text-[#c2c5c8] text-lg leading-relaxed mb-5 max-w-md"
+            className="text-[#c2c5c8] text-lg leading-relaxed mb-5 max-w-2xl"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Over{" "}
@@ -3229,6 +3241,489 @@ function ProductsPage() {
   );
 }
 
+/* ─── Gallery Page ───────────────────────────────── */
+const PORTFOLIO_ITEMS = [
+  {
+    title: "PLC & SCADA Automation",
+    tag: "Automation",
+    img: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800&h=800&fit=crop&auto=format",
+  },
+  {
+    title: "Civil & Structural Works",
+    tag: "Construction",
+    img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=800&fit=crop&auto=format",
+  },
+  {
+    title: "Machine Retrofitting",
+    tag: "Modification",
+    img: "https://images.unsplash.com/photo-1565043666747-69f6646db940?w=800&h=800&fit=crop&auto=format",
+  },
+  {
+    title: "MEP Installations",
+    tag: "Engineering",
+    img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=800&fit=crop&auto=format",
+  },
+  {
+    title: "Control Panel Assembly",
+    tag: "Electrical",
+    img: "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=800&h=800&fit=crop&auto=format",
+  },
+  {
+    title: "Preventive Maintenance",
+    tag: "Service",
+    img: "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&h=800&fit=crop&auto=format",
+  },
+  {
+    title: "Conveyor Line Erection",
+    tag: "Construction",
+    img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=800&fit=crop&auto=format",
+  },
+  {
+    title: "Drive & Motor Commissioning",
+    tag: "Automation",
+    img: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&h=800&fit=crop&auto=format",
+  },
+  {
+    title: "Boiler & Utility Inspection",
+    tag: "Service",
+    img: "https://images.unsplash.com/photo-1516937941344-00b4e0337589?w=800&h=800&fit=crop&auto=format",
+  },
+];
+
+function GalleryPage() {
+  const [filter, setFilter] = useState("All");
+  const categories = useMemo(
+    () => ["All", ...Array.from(new Set(PORTFOLIO_ITEMS.map((p) => p.tag)))],
+    [],
+  );
+  const visible =
+    filter === "All"
+      ? PORTFOLIO_ITEMS
+      : PORTFOLIO_ITEMS.filter((p) => p.tag === filter);
+
+  return (
+    <main>
+      <PageBanner
+        crumb="Gallery"
+        eyebrow="Our Work"
+        image="https://images.unsplash.com/photo-1565043666747-69f6646db940?w=1400&h=900&fit=crop&auto=format"
+        title={
+          <>
+            Projects &amp; <span className="text-[#F2911B]">Capabilities</span>
+          </>
+        }
+        subtitle="A glimpse of the industrial projects, installations and engineering work delivered by our teams across Bangladesh — from automation and civil works to machine retrofitting and preventive maintenance."
+        highlights={[
+          { Icon: Factory, label: "50+ Delivered Projects" },
+          { Icon: Layers, label: "6 Engineering Domains" },
+          { Icon: BadgeCheck, label: "Nationwide Coverage" },
+        ]}
+      />
+
+      <section className="bg-[#F7F9FA] py-24 border-t border-[#e2e5e8]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <Reveal className="mb-10 max-w-2xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="h-px w-8 bg-[#F2911B]" />
+              <span
+                className="text-[#F2911B] text-xs tracking-[0.2em] uppercase"
+                style={{ fontFamily: "'DM Mono', monospace" }}
+              >
+                Portfolio
+              </span>
+            </div>
+            <h2
+              className="text-3xl md:text-4xl font-bold text-[#151719] leading-tight"
+              style={{ fontFamily: "'Roboto Slab', serif" }}
+            >
+              Engineering Work That Speaks for Itself
+            </h2>
+          </Reveal>
+
+          {/* Category filter */}
+          <div className="flex flex-wrap gap-2.5 mb-10">
+            {categories.map((c) => {
+              const active = filter === c;
+              return (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => setFilter(c)}
+                  className={`px-4 py-2 rounded-sm text-[13px] font-semibold tracking-wide transition-colors duration-200 border ${
+                    active
+                      ? "bg-[#F2911B] border-[#F2911B] text-white"
+                      : "bg-white border-[#e2e5e8] text-[#5a5d60] hover:border-[#F2911B] hover:text-[#F2911B]"
+                  }`}
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {c}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Grid */}
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+            {visible.map(({ title, tag, img }, i) => (
+              <Reveal
+                key={title}
+                delay={(i % 3) * 90}
+                className="group relative aspect-square overflow-hidden rounded-sm bg-[#1e2124]"
+              >
+                <img
+                  src={img}
+                  alt={title}
+                  loading="lazy"
+                  className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#151719] via-[#151719]/20 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-4 md:p-5 translate-y-1 group-hover:translate-y-0 transition-transform">
+                  <span
+                    className="inline-block text-[9px] md:text-[10px] tracking-[0.18em] uppercase text-[#F2911B] mb-1"
+                    style={{ fontFamily: "'DM Mono', monospace" }}
+                  >
+                    {tag}
+                  </span>
+                  <h3
+                    className="text-white text-sm md:text-base font-semibold leading-snug"
+                    style={{ fontFamily: "'Roboto Slab', serif" }}
+                  >
+                    {title}
+                  </h3>
+                </div>
+                <div className="absolute top-3 right-3 w-8 h-8 rounded-sm bg-[#F2911B] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight size={16} className="text-white" aria-hidden="true" />
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA banner */}
+      <GalleryEventCTA
+        heading="Have a project in mind?"
+        text="From concept to commissioning, our engineering teams deliver industrial projects end to end. Let's discuss how we can bring your vision to life."
+      />
+    </main>
+  );
+}
+
+/* ─── Event Page ─────────────────────────────────── */
+const EVENTS = [
+  {
+    day: "14",
+    month: "AUG",
+    year: "2026",
+    title: "Industrial Automation Expo 2026",
+    time: "10:00 AM – 6:00 PM",
+    location: "Int'l Convention City, Dhaka",
+    category: "Exhibition",
+    status: "Upcoming",
+    img: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop&auto=format",
+    desc: "Join Linked Technologies at the country's largest automation expo. Explore live demonstrations of our PLC, SCADA and drive solutions on our exhibition floor.",
+  },
+  {
+    day: "05",
+    month: "SEP",
+    year: "2026",
+    title: "PLC & SCADA Hands-on Workshop",
+    time: "9:30 AM – 4:00 PM",
+    location: "LTL Training Center, Gazipur",
+    category: "Workshop",
+    status: "Upcoming",
+    img: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&h=600&fit=crop&auto=format",
+    desc: "A practical, engineer-led session covering PLC programming, HMI configuration and SCADA integration for plant maintenance teams. Limited seats available.",
+  },
+  {
+    day: "22",
+    month: "OCT",
+    year: "2026",
+    title: "Energy Efficiency & Drives Seminar",
+    time: "11:00 AM – 2:00 PM",
+    location: "Radisson Blu, Dhaka",
+    category: "Seminar",
+    status: "Upcoming",
+    img: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=600&fit=crop&auto=format",
+    desc: "Discover how modern VFDs and motor control strategies reduce energy consumption across manufacturing plants, with real case studies from our projects.",
+  },
+  {
+    day: "18",
+    month: "MAR",
+    year: "2026",
+    title: "Factory Safety & Compliance Meetup",
+    time: "10:00 AM – 1:00 PM",
+    location: "LTL Corporate Office, Dhaka",
+    category: "Meetup",
+    status: "Past",
+    img: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&h=600&fit=crop&auto=format",
+    desc: "An industry roundtable on machine safety, guarding standards and inspection best practices — attended by plant heads from leading manufacturers.",
+  },
+  {
+    day: "27",
+    month: "JAN",
+    year: "2026",
+    title: "Smart Manufacturing Conference",
+    time: "9:00 AM – 5:00 PM",
+    location: "BICC, Dhaka",
+    category: "Conference",
+    status: "Past",
+    img: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&h=600&fit=crop&auto=format",
+    desc: "Our engineering team presented on Industry 4.0 adoption and shared a roadmap for digitalizing legacy production lines through phased automation.",
+  },
+  {
+    day: "09",
+    month: "DEC",
+    year: "2025",
+    title: "Preventive Maintenance Bootcamp",
+    time: "9:30 AM – 3:30 PM",
+    location: "LTL Training Center, Gazipur",
+    category: "Workshop",
+    status: "Past",
+    img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&h=600&fit=crop&auto=format",
+    desc: "A focused bootcamp on predictive and preventive maintenance workflows, condition monitoring, and spare-parts planning for industrial equipment.",
+  },
+];
+
+function EventPage() {
+  const navigate = useNavigate();
+  const [tab, setTab] = useState<"Upcoming" | "Past">("Upcoming");
+  const visible = EVENTS.filter((ev) => ev.status === tab);
+
+  const register = (title: string) => {
+    navigate(`/contact?event=${encodeURIComponent(title)}`);
+    window.scrollTo({ top: 0, behavior: "auto" });
+  };
+
+  return (
+    <main>
+      <PageBanner
+        crumb="Event"
+        eyebrow="What's Happening"
+        image="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1400&h=900&fit=crop&auto=format"
+        title={
+          <>
+            Events &amp; <span className="text-[#F2911B]">Exhibitions</span>
+          </>
+        }
+        subtitle="Meet our engineers, explore live demonstrations, and stay ahead of the curve. From expos and seminars to hands-on workshops — here's where Linked Technologies is engaging the industry."
+        highlights={[
+          { Icon: CalendarCheck, label: "Regular Industry Events" },
+          { Icon: Users, label: "Expert-Led Sessions" },
+          { Icon: GraduationCap, label: "Hands-on Workshops" },
+        ]}
+      />
+
+      <section className="bg-[#F7F9FA] py-24 border-t border-[#e2e5e8]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <Reveal className="mb-10 max-w-2xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="h-px w-8 bg-[#F2911B]" />
+              <span
+                className="text-[#F2911B] text-xs tracking-[0.2em] uppercase"
+                style={{ fontFamily: "'DM Mono', monospace" }}
+              >
+                Calendar
+              </span>
+            </div>
+            <h2
+              className="text-3xl md:text-4xl font-bold text-[#151719] leading-tight"
+              style={{ fontFamily: "'Roboto Slab', serif" }}
+            >
+              Upcoming &amp; Recent Events
+            </h2>
+          </Reveal>
+
+          {/* Tabs */}
+          <div className="inline-flex p-1 bg-white border border-[#e2e5e8] rounded-sm mb-10">
+            {(["Upcoming", "Past"] as const).map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setTab(t)}
+                className={`px-6 py-2.5 rounded-sm text-[13px] font-semibold tracking-wide transition-colors duration-200 ${
+                  tab === t
+                    ? "bg-[#F2911B] text-white"
+                    : "text-[#5a5d60] hover:text-[#F2911B]"
+                }`}
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+
+          {/* Event grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {visible.map((ev, i) => (
+              <Reveal
+                key={ev.title}
+                delay={(i % 3) * 90}
+                className="card-hover-light group flex flex-col bg-white border border-[#e2e5e8] rounded-sm overflow-hidden"
+              >
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={ev.img}
+                    alt={ev.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#151719]/70 via-transparent to-transparent" />
+                  {/* Date badge */}
+                  <div className="absolute top-4 left-4 bg-[#F2911B] text-white text-center px-3 py-2 rounded-sm shadow-lg shadow-black/20">
+                    <div
+                      className="text-2xl font-bold leading-none"
+                      style={{ fontFamily: "'Roboto Slab', serif" }}
+                    >
+                      {ev.day}
+                    </div>
+                    <div
+                      className="text-[10px] tracking-[0.18em] mt-0.5"
+                      style={{ fontFamily: "'DM Mono', monospace" }}
+                    >
+                      {ev.month}
+                    </div>
+                  </div>
+                  {/* Status pill */}
+                  <span
+                    className={`absolute top-4 right-4 inline-flex items-center gap-1.5 text-[10px] font-bold tracking-[0.1em] uppercase px-2.5 py-1 rounded-sm ${
+                      ev.status === "Upcoming"
+                        ? "bg-[#16a34a] text-white"
+                        : "bg-[#5a5d60] text-white"
+                    }`}
+                    style={{ fontFamily: "'DM Mono', monospace" }}
+                  >
+                    {ev.status}
+                  </span>
+                  <span
+                    className="absolute bottom-3 left-4 inline-flex items-center gap-1.5 bg-white/10 text-white text-[10px] font-semibold tracking-[0.1em] uppercase px-2.5 py-1 rounded-sm backdrop-blur-sm"
+                    style={{ fontFamily: "'DM Mono', monospace" }}
+                  >
+                    {ev.category}
+                  </span>
+                </div>
+
+                <div className="p-6 flex flex-col flex-1">
+                  <h3
+                    className="text-lg font-bold text-[#151719] leading-snug mb-4"
+                    style={{ fontFamily: "'Roboto Slab', serif" }}
+                  >
+                    {ev.title}
+                  </h3>
+                  <div
+                    className="space-y-2 mb-4"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    <div className="flex items-center gap-2.5 text-[13px] text-[#5a5d60]">
+                      <CalendarCheck size={15} className="text-[#F2911B] shrink-0" aria-hidden="true" />
+                      {ev.day} {ev.month} {ev.year}
+                    </div>
+                    <div className="flex items-center gap-2.5 text-[13px] text-[#5a5d60]">
+                      <Clock size={15} className="text-[#F2911B] shrink-0" aria-hidden="true" />
+                      {ev.time}
+                    </div>
+                    <div className="flex items-center gap-2.5 text-[13px] text-[#5a5d60]">
+                      <MapPin size={15} className="text-[#F2911B] shrink-0" aria-hidden="true" />
+                      {ev.location}
+                    </div>
+                  </div>
+                  <p
+                    className="text-sm text-[#5a5d60] leading-relaxed mb-6 flex-1"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    {ev.desc}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => register(ev.title)}
+                    disabled={ev.status === "Past"}
+                    className={`group/btn mt-auto inline-flex items-center justify-center gap-2 w-full font-semibold px-5 py-3 rounded-sm text-[13px] tracking-wide transition-colors duration-200 ${
+                      ev.status === "Past"
+                        ? "border border-[#e2e5e8] text-[#a9adb0] cursor-not-allowed"
+                        : "border border-[#707375]/40 hover:border-[#F2911B] hover:bg-[#F2911B] text-[#151719] hover:text-white"
+                    }`}
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    {ev.status === "Past" ? "Event Concluded" : "Register Interest"}
+                    {ev.status !== "Past" && (
+                      <ArrowRight
+                        size={15}
+                        className="group-hover/btn:translate-x-1 transition-transform"
+                        aria-hidden="true"
+                      />
+                    )}
+                  </button>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          {visible.length === 0 && (
+            <div className="text-center py-16">
+              <CalendarCheck
+                size={40}
+                className="text-[#cfd4d8] mx-auto mb-4"
+                aria-hidden="true"
+              />
+              <p
+                className="text-[#5a5d60] text-base"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                No {tab.toLowerCase()} events at the moment. Please check back soon.
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* CTA banner */}
+      <GalleryEventCTA
+        heading="Want to host or attend an event with us?"
+        text="Reach out to our team to learn about upcoming sessions, request a private workshop, or partner with Linked Technologies on an industry event."
+      />
+    </main>
+  );
+}
+
+/* ─── Shared CTA for Gallery / Event pages ───────── */
+function GalleryEventCTA({ heading, text }: { heading: string; text: string }) {
+  const navigate = useNavigate();
+  return (
+    <section className="bg-[#e9edf0] py-16 border-y border-[#dce0e4]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <Reveal className="flex flex-col lg:flex-row items-center justify-between gap-8 text-center lg:text-left">
+          <div className="max-w-2xl">
+            <h2
+              className="text-2xl md:text-3xl font-bold text-[#151719] leading-tight mb-3"
+              style={{ fontFamily: "'Roboto Slab', serif" }}
+            >
+              {heading}
+            </h2>
+            <p
+              className="text-[#5a5d60] text-base leading-relaxed"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              {text}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              navigate("/contact");
+              window.scrollTo({ top: 0, behavior: "auto" });
+            }}
+            className="inline-flex items-center gap-2 bg-[#F2911B] hover:bg-[#d97d10] text-white font-semibold px-8 py-4 rounded-sm text-sm tracking-wide transition-colors duration-200 shadow-lg shadow-[#F2911B]/20 flex-shrink-0"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Contact Our Team
+            <ArrowRight size={17} aria-hidden="true" />
+          </button>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 /* ─── Landing page ───────────────────────────────── */
 function LandingPage() {
   return (
@@ -3257,6 +3752,33 @@ function ScrollToTop() {
 
 /* ─── App ────────────────────────────────────────── */
 export default function App() {
+  const location = useLocation();
+
+  // Admin panel runs as a standalone shell (no public header/footer).
+  if (location.pathname.startsWith("/admin")) {
+    return (
+      <Routes>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboardPage />} />
+          <Route path="permissions" element={<AdminPermissionsPage />} />
+          <Route path="users/admin" element={<AdminUsersPage />} />
+          <Route path="users/editor" element={<EditorUsersPage />} />
+          <Route path="catalog/services" element={<AdminServicesPage />} />
+          <Route path="catalog/products" element={<AdminProductsPage />} />
+          <Route path="catalog/categories" element={<AdminCategoryPage />} />
+          <Route path="catalog/brands" element={<AdminBrandPage />} />
+          <Route path="content/gallery" element={<AdminGalleryPage />} />
+          <Route path="content/events" element={<AdminEventsPage />} />
+          <Route path="content/testimonials" element={<AdminTestimonialsPage />} />
+          <Route path="content/faq" element={<AdminFaqPage />} />
+          <Route path="content/team" element={<AdminTeamPage />} />
+          <Route path="settings/branches" element={<AdminBranchesPage />} />
+          <Route path="settings/company" element={<AdminCompanyInfoPage />} />
+        </Route>
+      </Routes>
+    );
+  }
+
   return (
     <div className="min-h-screen" style={{ fontFamily: "'Inter', sans-serif" }}>
       <ScrollProgress />
@@ -3267,6 +3789,8 @@ export default function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/products" element={<ProductsPage />} />
+        <Route path="/gallery" element={<GalleryPage />} />
+        <Route path="/event" element={<EventPage />} />
         <Route path="/contact" element={<ContactPage />} />
       </Routes>
       <Footer />

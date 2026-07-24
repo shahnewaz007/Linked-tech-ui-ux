@@ -1,0 +1,186 @@
+/* ============================================================
+   Admin Panel — Responsive Utilities (Linked Technologies)
+   Breakpoints:
+     mobile  : < 768px
+     tablet  : 768px – 1023px
+     desktop : 1024px – 1535px
+     wide    : 1536px – 2559px  (Full HD / QHD)
+     4k      : 2560px+
+   ============================================================ */
+
+/* ── Content padding ─────────────────────────────────────── */
+.admin-main {
+  flex: 1;
+  overflow-y: auto;
+  background: #F7F9FA;
+  padding: 24px 28px;
+}
+
+@media (max-width: 1023px) {
+  .admin-main {
+    padding: 20px 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .admin-main {
+    padding: 16px 14px;
+  }
+}
+
+/* ── Page header (title + action button) ─────────────────── */
+.admin-page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* ── Dashboard: 4-stat grid ──────────────────────────────── */
+.admin-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 1279px) {
+  .admin-stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 479px) {
+  .admin-stat-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/* ── Dashboard: two-column splits ────────────────────────── */
+.admin-dash-2col {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.admin-dash-2col-wide {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 959px) {
+  .admin-dash-2col,
+  .admin-dash-2col-wide {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Dashboard: quick actions row ────────────────────────── */
+.admin-quick-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 767px) {
+  .admin-quick-actions {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── Generic form grids ──────────────────────────────────── */
+.admin-form-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+@media (max-width: 1023px) {
+  .admin-form-grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 639px) {
+  .admin-form-grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Modal inner grids ────────────────────────────────────── */
+.admin-modal-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 519px) {
+  .admin-modal-2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Card grid (gallery / team) ──────────────────────────── */
+.admin-card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1279px) {
+  .admin-card-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 959px) {
+  .admin-card-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 519px) {
+  .admin-card-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Table wrapper ────────────────────────────────────────── */
+.admin-table-wrap {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e2e5e8;
+  box-shadow: 0 1px 2px rgba(21, 23, 25, 0.06);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Sidebar overlay backdrop ────────────────────────────── */
+.admin-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 199;
+  background: rgba(21, 23, 25, 0.52);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  animation: adminBackdropIn 0.2s ease-out;
+}
+
+@keyframes adminBackdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Wide / 4K: cap content width & center ───────────────── */
+@media (min-width: 2560px) {
+  .admin-main {
+    padding: 32px 40px;
+  }
+}
+
+/* ── Modal responsive ────────────────────────────────────── */
+@media (max-width: 639px) {
+  .admin-modal-header {
+    padding: 14px 16px 12px !important;
+  }
+  .admin-modal-body {
+    padding: 16px !important;
+  }
+}
